@@ -23,14 +23,14 @@ if __name__ == "__main__":
             print("Не удалось распознать числа. Попробуйте ещё раз")
         except AssertionError as inst:
             print(inst.args[0])
-    print("Выберите функцию для апроксимации:\n1. ax+b\n2. ax^2+bx+c\n3. ae^(bx)\n4. ax^b\nВведите число от 1 до 4")
+    print("Выберите функцию для апроксимации:\n1. ax+b\n2. ax^2+bx+c\n3. ae^(bx)\n4. alog(x)+b\n5. ax^b\nВведите число от 1 до 5")
     while True:
         try:
             f_type = int(input().strip())
-            assert f_type <= 4 and f_type >= 1, "Введите число от 1 до 4"
+            assert f_type <= 5 and f_type >= 1, "Введите число от 1 до 5"
             break
         except ValueError:
-            print("Неверный формат числа. Введите число от 1 до 4")
+            print("Неверный формат числа. Введите число от 1 до 5")
         except AssertionError as inst:
             print(inst.args[0])
 
