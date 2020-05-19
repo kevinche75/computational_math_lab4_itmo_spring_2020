@@ -9,7 +9,8 @@ def calc_linear_coefs(x, y):
     SXY = np.sum(x*y)
     n = len(x)
     denominator = SXX*n - SX*SX
-    assert  denominator != 0, "Cann't calculate coefs: divizion by zero"
+    if denominator == 0:
+        raise Exception("Cann't calculate coefs: divizion by zero")
     a = (SXY*n - SX*SY)/denominator
     b = (SXX*SY-SX*SXY)/denominator
     return [a,b]
@@ -26,7 +27,8 @@ def calc_quadratic_coefs(x, y):
     delta =   np.linalg.det([[  n, X_1, X_2],
                              [X_1, X_2, X_3],
                              [X_2, X_3, X_4]])
-    assert delta != 0, "Cann't calculate coefs: divizion by zero"
+    if delta == 0:
+        raise Exception("Cann't calculate coefs: divizion by zero")
     delta_0 = np.linalg.det([[Z_1, X_1, X_2],
                              [Z_2, X_2, X_3],
                              [Z_3, X_3, X_4]])
@@ -40,24 +42,25 @@ def calc_quadratic_coefs(x, y):
     return [delta_0/delta, delta_1/delta, delta_2/delta]
 
 def calc_exp_coefs(x, y):
-    assert not np.any(y <= 0), "Cann't calculate coefs, y <= 0"
+    if np.any(y <= 0):
+        raise Exception("Cann't calculate coefs, y <= 0")
     a_1, a_0 = calc_linear_coefs(x, np.log(y))
     return [e**a_0, a_1]
     
 def calc_pow_coefs(x, y):
-    assert not (np.any(x <= 0) or np.any(y <= 0)), "Cann't calulcate coefs, x <= 0 or y <= 0"
+    if np.any(x <= 0) or np.any(y <= 0):
+        raise Exception("Cann't calulcate coefs, x <= 0 or y <= 0")
     a_1, a_0 = calc_linear_coefs(np.log(x), np.log(y))
     return [e**a_0, a_1]
 
 def calc_log_coefs(x,y):
-    assert not np.any(x <= 0), "Cann't calculate coefs, x <= 0"
+    if np.any(x <= 0):
+        raise Exception("Cann't calculate coefs, x <= 0")
     a_0, a_1 = calc_linear_coefs(np.log(x), y)
     return [a_0, a_1]
 
 def exclude_noise(func, x, y):
     index = np.argmax((func(x)-y)**2)
-    print(x[index])
-    print(y[index])
     return np.delete(x, index), np.delete(y, index)
 
 class Function(object):
